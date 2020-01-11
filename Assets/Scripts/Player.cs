@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
     private void Initialize()
     {
         UIManager.instance.SetHealthUI(health); //Set health UI
+        UIManager.instance.SetCoins(money); //Set start money UI
     }
 
     private void OnGotDamage() //In case you wanna add some extra code

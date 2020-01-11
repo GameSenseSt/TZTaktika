@@ -47,6 +47,8 @@ public class Enemy : MonoBehaviour
         finished = false; //Enemy is far away from player's base
         pointNow = EnemyWayPointsHolder.WayPoints[0]; //Go to 0 point
         healthLine.transform.localScale = Vector3.one; //Reset health bar
+        transform.Find("ShootingEffect").gameObject.SetActive(true);//Turning off shooting effect
+
     }
 
     public void SetNewMaxHealth() //With new waves enemies become stronger

@@ -16,6 +16,7 @@ public class Tower : MonoBehaviour
     private List<Enemy> enemiesInRange; //List of enemies under attack
     private float timeBtwShoot, lastShootTime = 0; //For timer manipulation
     private ParticleSystem shootEffect; //Shooting effect
+    private bool isPlaced = false; //If tower is placed
     #endregion
 
     #region MonoBehaviourCallbacks
@@ -27,6 +28,7 @@ public class Tower : MonoBehaviour
     void Update()
     {
         Shooting(); //Shooting
+        MovingTower(); //Moving Tower After Spawning
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -72,10 +74,12 @@ public class Tower : MonoBehaviour
         enemiesInRange = new List<Enemy>(); //initialization
         timeBtwShoot = 1f / shotsPerSecond; //just more comfortable
         shootEffect = transform.Find("ShootEffect").gameObject.GetComponent<ParticleSystem>();
+        GameManager.instance.InitializeTower(gameObject);
     }
 
     private void Shooting()
     {
+        if (!isPlaced) return; //We can't shoot if tower isn't placed
         if (enemiesInRange.Count == 0) return; //If there is no enemies in range
         if (Time.time > lastShootTime + timeBtwShoot) //If it's time to shoot
         {
@@ -108,6 +112,21 @@ public class Tower : MonoBehaviour
     private void OnLastEnemyExited() //In case you wanna add some extra code 
     {
 
+    }
+    
+    private void MovingTower() //Moving tower when spawned
+    {
+        if (!Input.GetMouseButton(0))
+        {
+            isPlaced = true;
+        }
+        if (!isPlaced)
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(transform.position.x,
+                                             transform.position.y,
+                                             0f);
+        }
     }
     #endregion
 }

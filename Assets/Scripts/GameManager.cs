@@ -91,4 +91,15 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region PublicMethods
+    public void InitializeTower(GameObject tower)
+    {
+        towerCoins.Add(tower.transform.Find("TowerCoin").gameObject);
+        if (Player.instance.GetCoinsCount()<100)
+        {
+            towerCoins[towerCoins.Count - 1].SetActive(false);
+        }
+    }
+    #endregion
 }
